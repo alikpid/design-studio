@@ -5,12 +5,23 @@
 {% block title %} Профиль пользователя {% endblock %}
 
 {% block content %}
-   <h2>Профиль пользователя {{ user.username }}</h2>
-   {% if user.name and user.surname %}
-       <p>Здравствуйте, {{ user.surname }} {{ user.name }} </p>
-   {% else %}
-       <p>Здравствуйте! </p>
-   {% endif %}
-   <p><a href="#" class="btn btn-dark">Создать заявку</a></p>
-   <h3>Ваши заявки</h3>
+
+<h3>Ваши заявки</h3> <br>
+{% if has_applications %}
+<div class="border">
+    {% for application in applications %}
+    <div class="p-4 border">
+        <h4>{{ application.name }}</h4> <br>
+        <p>{{ application.description }}</p>
+        <p>Категория: <br>{{ application.category }}</p>
+        <p>Статус: <br>{{ application.get_status_name }}</p>
+        <p>Дата добавления: <br>{{ application.day_add }}</p>
+    </div>
+
+    {% endfor %}
+</div>
+{% else %}
+<p>Заявок пока нет</p>
+<p><a href="{% url 'create_request' %}" class="btn btn-dark">Создать заявку</a></p>
+{% endif %}
 {% endblock %}

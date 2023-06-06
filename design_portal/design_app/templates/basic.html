@@ -17,10 +17,10 @@
        <a class="mr-md-auto p-2" href="{% url 'index' %}">Design.pro</a>
        {% if user.is_authenticated %}
        <div class="nav-item dropdown">
-           <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Профиль</a>
-           <div class="dropdown-menu">
+           <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ user.username }}</a>
+           <div class="dropdown-menu dropdown-menu-right">
                <a class="dropdown-item" href="{% url 'profile' %}">Мои заявки</a>
-               <div class="dropdown-divider"></div>
+               <a class="dropdown-item" href="{% url 'create_request' %}">Создать заявку</a>
                <a class="dropdown-item" href="{% url 'logout' %}">Выйти</a>
            </div>
        </div>

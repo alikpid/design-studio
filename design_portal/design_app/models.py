@@ -27,7 +27,7 @@ class User(AbstractUser):
             code='invalid_middlename'
         ),
     ])
-    username = models.CharField(max_length=200, verbose_name='Логин', unique=True, blank=False, validators=[
+    username = models.CharField(max_length=200, verbose_name='Login', unique=True, blank=False, validators=[
         RegexValidator(
             regex='^[A-Za-z -]*$',
             message='Имя пользователя должно состоять только из латиницы, допускается дефис',
@@ -46,6 +46,9 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name_plural = 'Categories'
+
 
 class Request(models.Model):
     day_add = models.DateTimeField(auto_now_add=True)
@@ -62,11 +65,11 @@ class Request(models.Model):
     ]
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, blank=True, default='New')
 
-    # def get_status_name(self):
-    #     for status in self.STATUS_CHOICES:
-    #         if status[0] == self.status:
-    #             return status[1]
-    #     return 'Не задан'
+    def get_status_name(self):
+        for status in self.STATUS_CHOICES:
+            if status[0] == self.status:
+                return status[1]
+        return 'Не задан'
 
     def __str__(self):
         return self.name
