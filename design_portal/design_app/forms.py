@@ -1,7 +1,7 @@
 from django.contrib.auth import password_validation
 from django.core.exceptions import ValidationError
 from django import forms
-from .models import User, Request
+from .models import User, Request, Category
 
 
 class RegisterUserForm(forms.ModelForm):
@@ -49,3 +49,9 @@ class RequestForm(forms.ModelForm):
     class Meta:
         model = Request
         fields = ['name', 'description', 'category', 'img']
+
+
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ['name']

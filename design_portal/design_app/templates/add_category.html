@@ -1,0 +1,14 @@
+{% extends "basic.html" %}
+{% load bootstrap4 %}
+
+{% block title %} Создание категории {% endblock %}
+
+{% block content %}
+  <h2>Добавление категории</h2>
+
+  <form method="post">
+    {% csrf_token %}
+    {% bootstrap_form form layout='vertical' %}
+    {% buttons submit='Добавить' %} {% endbuttons %}
+  </form>
+{% endblock %}

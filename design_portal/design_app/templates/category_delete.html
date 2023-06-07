@@ -1,0 +1,16 @@
+{% extends "basic.html" %}
+{% load bootstrap4 %}
+
+{% block title %} Удаление категории {% endblock %}
+
+{% block content %}
+
+<h1>Удаление категории</h1>
+<p>Вы собираетесь удалить категорию "{{ category.name }}".</p>
+
+<form id="delete-form" method="post" action="{% url 'delete_category' request_id=category.id %}">
+<button class="btn btn-danger">Удалить</button>
+  {% csrf_token %}
+</form>
+
+{% endblock %}

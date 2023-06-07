@@ -41,7 +41,7 @@ class User(AbstractUser):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, verbose_name='Название')
 
     def __str__(self):
         return self.name
@@ -55,9 +55,12 @@ class Request(models.Model):
     name = models.CharField(max_length=200, verbose_name='Название', blank=False)
     description = models.TextField(max_length=1000, verbose_name="Описание", blank=False)
     category = models.ForeignKey(Category, verbose_name="Категория", on_delete=models.CASCADE, blank=False)
-    author = models.ForeignKey(User, verbose_name="Пользователь", on_delete=models.CASCADE, blank=True)
-    img = models.ImageField(max_length=200, verbose_name="Изображение", upload_to=get_timestamp_path, blank=False,
+    author = models.ForeignKey(User, verbose_name="Пользователь", on_delete=models.CASCADE, blank=True, default=None)
+    img = models.ImageField(max_length=200, verbose_name="Изображение", default="empty_img.png", upload_to=get_timestamp_path, blank=False,
                             validators=[FileExtensionValidator(allowed_extensions=['png', 'jpg', 'jpeg'])])
+    design_img = models.ImageField(max_length=200, default="default_design.png", blank=False, verbose_name="Дизайн" , upload_to=get_timestamp_path,
+                                   validators=[FileExtensionValidator(allowed_extensions=['png', 'jpg', 'jpeg'])])
+
     STATUS_CHOICES = [
         ('New', 'Новая'),
         ('Accepted for work', 'Принята в работу'),
@@ -78,4 +81,3 @@ class Request(models.Model):
         verbose_name = 'Заявка'
         verbose_name_plural = 'Заявки'
         ordering = ['-day_add']
-        # permissions = (("can_mark_returned", "Установите статус заказа"),)

@@ -1,0 +1,18 @@
+{% extends "basic.html" %}
+{% load bootstrap4 %}
+
+{% block title %} Управление категорями {% endblock %}
+
+{% block content %}
+
+<p><a href="{% url 'add_category' %}" class="link link-success">Добавить категорию</a></p> <br>
+{% for category in categories %}
+<div class="p-4 border d-flex align-items-center">
+    <h4 class="mr-auto">{{ category.name }}</h4>
+    <a href="{% url 'delete_category' request_id=category.id %}" class="ml-auto btn btn-danger">X</a>
+</div>
+{% endfor %}
+
+
+{% endblock %}
+
