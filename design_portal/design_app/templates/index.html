@@ -1,4 +1,16 @@
 {% extends "basic.html" %}
 {% block content %}
-   <h2 class="text-center">Последние 4 заявки</h2>
+<h2>Последние выполненные заявки заявки</h2>
+<p class="mb-3">Принято в работу: {{ in_progress_count }}</p>
+{% for request in completed_requests %}
+<div class="p-4 border mb-3">
+    <p>{{ request.name }}</p>
+    <p>Категория: {{ request.category }}</p>
+    <p>Дата добавления: {{ request.day_add }}</p>
+    <p><img class="img-fluid d-block" style="max-width: 100%; height: auto;" src="{{ request.design_img.url }}"></p>
+</div>
+{% empty %}
+<p>Нет выполненных заявок.</p>
+{% endfor %}
+
 {% endblock %}

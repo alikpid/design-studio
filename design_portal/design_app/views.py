@@ -7,14 +7,21 @@ from django.contrib.auth.views import LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
-from django.http import HttpResponseBadRequest
 from .forms import RegisterUserForm, RequestForm, CategoryForm
 from .models import User, Request, Category
 from .utilities import is_admin
 
 
-class Index(TemplateView):
-    template_name = 'index.html'
+def index(request):
+    completed_requests = Request.objects.filter(status='Completed').order_by('-day_add')[:4]
+    in_progress_count = Request.objects.filter(status='Accepted for work').count()
+
+    context = {
+        'completed_requests': completed_requests,
+        'in_progress_count': in_progress_count,
+    }
+
+    return render(request, 'index.html', context)
 
 
 class Register(CreateView):
@@ -39,12 +46,17 @@ class Logout(LoginRequiredMixin, LogoutView):
 @login_required
 def profile(request):
     user = request.user
+    status_filter = request.GET.get('status', None)
+
     if user.is_superuser:
         applications = Request.objects.all()
-        has_applications = applications.exists()
     else:
         applications = Request.objects.filter(author=user)
-        has_applications = applications.exists()
+
+    if status_filter:
+        applications = applications.filter(status=status_filter)
+
+    has_applications = applications.exists()
 
     context = {
         'applications': applications,

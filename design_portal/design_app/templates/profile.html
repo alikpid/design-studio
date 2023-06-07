@@ -9,6 +9,18 @@
 {% else %}
 <h3>Ваши заявки</h3> <br>
 {% endif %}
+<form method="GET" action="{% url 'profile' %}" class="mb-4">
+  <div class="form-group">
+    <label for="status">Фильтр</label>
+    <select name="status" id="status" class="form-control">
+      <option value="">Все</option>
+      <option value="New">Новая</option>
+      <option value="Accepted for work">Принята в работу</option>
+      <option value="Completed">Выполнена</option>
+    </select>
+  </div>
+  <button type="submit" class="btn btn-primary">Применить</button>
+</form>
 {% if has_applications %}
 <div class="border">
     {% for application in applications %}
@@ -32,6 +44,5 @@
 </div>
 {% else %}
 <p>Заявок пока нет</p>
-<p><a href="{% url 'create_request' %}" class="btn btn-dark">Создать заявку</a></p>
 {% endif %}
 {% endblock %}
