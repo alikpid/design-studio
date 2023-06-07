@@ -12,4 +12,6 @@ urlpatterns = [
     path('logout/', Logout.as_view(), name='logout'),
     path('profile/', profile, name='profile'),
     path('create-request/', create_request, name='create_request'),
+    path('request/<int:request_id>/delete/', delete_request, name='delete_request'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

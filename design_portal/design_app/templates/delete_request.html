@@ -1,0 +1,14 @@
+{% extends "basic.html" %}
+{% load bootstrap4 %}
+
+{% block title %} Удаление заявки {% endblock %}
+
+{% block content %}
+<h1>Удаление заявки</h1>
+<p>Вы собираетесь удалить заявку "{{ request_obj.name }}".</p>
+
+<form id="delete-form" method="post" action="{% url 'delete_request' request_id=request_obj.id %}">
+<button class="btn btn-danger">Удалить</button>
+  {% csrf_token %}
+</form>
+{% endblock %}

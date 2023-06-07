@@ -53,17 +53,17 @@ class Category(models.Model):
 class Request(models.Model):
     day_add = models.DateTimeField(auto_now_add=True)
     name = models.CharField(max_length=200, verbose_name='Название', blank=False)
-    description = models.TextField(max_length=1000, help_text="Описание", blank=False)
-    category = models.ForeignKey(Category, help_text="Выбор категории", on_delete=models.CASCADE, blank=False)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    img = models.ImageField(max_length=200, upload_to=get_timestamp_path, blank=True, null=True,
+    description = models.TextField(max_length=1000, verbose_name="Описание", blank=False)
+    category = models.ForeignKey(Category, verbose_name="Категория", on_delete=models.CASCADE, blank=False)
+    author = models.ForeignKey(User, verbose_name="Пользователь", on_delete=models.CASCADE, blank=True)
+    img = models.ImageField(max_length=200, verbose_name="Изображение", upload_to=get_timestamp_path, blank=False,
                             validators=[FileExtensionValidator(allowed_extensions=['png', 'jpg', 'jpeg'])])
     STATUS_CHOICES = [
         ('New', 'Новая'),
         ('Accepted for work', 'Принята в работу'),
         ('Completed', 'Выполнена'),
     ]
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, blank=True, default='New')
+    status = models.CharField(max_length=20, verbose_name="Статус", choices=STATUS_CHOICES, blank=True, default='New')
 
     def get_status_name(self):
         for status in self.STATUS_CHOICES:

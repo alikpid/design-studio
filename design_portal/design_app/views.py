@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.base import TemplateView
 from django.views.generic import CreateView
 from .forms import RegisterUserForm, RequestForm
@@ -8,6 +8,7 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth.views import LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 
 class Index(TemplateView):
@@ -59,3 +60,22 @@ def create_request(request):
         form = RequestForm()
     return render(request, 'create_request.html', {'form': form})
 
+
+def delete_request(request, request_id):
+    request_obj = get_object_or_404(Request, id=request_id)
+
+    if request.method == 'GET':
+        return render(request, 'delete_request.html', {'request_obj': request_obj})
+
+    if request.method == 'POST':
+        if request.user.is_authenticated and request.user == request_obj.author:
+            if request_obj.status not in ['Accepted for work', 'Completed']:
+                request_obj.delete()
+                messages.success(request, 'Заявка успешно удалена')
+                return redirect('profile')
+            else:
+                messages.error(request, 'Нельзя удалить заявку со статусом "Принято в работу" или "Выполнено"')
+        else:
+            messages.error(request, 'У вас нет прав для удаления этой заявки')
+
+    return redirect('profile')
